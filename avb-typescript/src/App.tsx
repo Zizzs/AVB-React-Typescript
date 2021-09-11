@@ -1,7 +1,11 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
+
 import ContactsService from "./services/ContactsService";
-import ContactData from "./types/ContactData";
+import { ContactData } from "./types/ContactData";
+
 import ContactList from './components/ContactList';
+import SingleContact from "./components/SingleContact";
+
 import './App.css';
 
 const App: React.FC = () => {
@@ -24,9 +28,11 @@ const App: React.FC = () => {
       })
   }
 
+  console.log(currentContact);
   return (
-    <div>
-      <ContactList contacts={contacts} setCurrentContact={setCurrentContact} />
+    <div className={"root-div"}>
+      <ContactList singleContact={currentContact} contacts={contacts} setCurrentContact={setCurrentContact} />
+      <SingleContact singleContact={currentContact} />
     </div>
   );
 }

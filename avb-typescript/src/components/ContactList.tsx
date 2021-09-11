@@ -1,25 +1,30 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import ContactsService from "../services/ContactsService";
-import ContactData from "../types/ContactData";
+import React from 'react';
+import { isPropertySignature } from 'typescript';
+import { ContactData, ContactListData } from "../types/ContactData";
+import "../App.css";
 
-interface contactProp {
-  contacts: Array<ContactData>,
-  setCurrentContact: React.Dispatch<React.SetStateAction<ContactData | undefined>>,
-}
-
-const ContactList: React.FC<contactProp> = (props) => {
+const ContactList: React.FC<ContactListData> = (props) => {
 
 
-  console.log(props.contacts);
   return (
     <div>
       <p>Contacts</p>
       <div>
         {props.contacts &&
           props.contacts.map((contact, index) => {
-            console.log(contact);
+            //console.log(contact);
             return (
-              <p>
+              <p className={"contact-list-single-contact"} onClick={(event: React.MouseEvent<HTMLElement>) => {
+                if (props.singleContact != undefined) {
+                  if (props.singleContact.id === contact.id) {
+                    props.setCurrentContact(undefined);
+                  } else {
+                    props.setCurrentContact(contact);
+                  }
+                } else {
+                  props.setCurrentContact(contact)
+                }
+              }}>
                 {contact.firstName} {contact.lastName}
               </p>
             )
