@@ -2,32 +2,21 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import ContactsService from "../services/ContactsService";
 import ContactData from "../types/ContactData";
 
-const ContactList: React.FC = () => {
+interface contactProp {
+  contacts: Array<ContactData>,
+  setCurrentContact: React.Dispatch<React.SetStateAction<ContactData | undefined>>,
+}
 
-  const [contacts, setContacts] = useState<Array<ContactData>>([]);
+const ContactList: React.FC<contactProp> = (props) => {
 
-  useEffect(() => {
-    retrieveContacts();
-  }, [])
 
-  const retrieveContacts = () => {
-    ContactsService.getAll()
-      .then(response => {
-        setContacts(response.data.contacts);
-        //console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      })
-  }
-
-  console.log(contacts);
+  console.log(props.contacts);
   return (
     <div>
       <p>Contacts</p>
       <div>
-        {contacts &&
-          contacts.map((contact, index) => {
+        {props.contacts &&
+          props.contacts.map((contact, index) => {
             console.log(contact);
             return (
               <p>
