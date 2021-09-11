@@ -1,9 +1,50 @@
 .root-div {
   display: grid;
-  grid-template-columns: 2fr 8fr;
+  grid-template-columns: 2fr 10fr;
 }
 
 .contact-list-single-contact {
   cursor: pointer;
   user-select: none;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 35px;
+}
+
+.contact-list-single-contact-selected {
+  cursor: pointer;
+  user-select: none;
+  background-color: #579AFF;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 35px;
+}
+
+.contact-list-single-contact-names {
+  margin-left: 15px;
+}
+
+.contact-list-main-div {
+  width: 228px;
+  height: 750px;
+  left: 0px;
+  top: 0px;
+  background: #F8FAFF;
+}
+
+.contact-list-header {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  margin-left: 15px;
+}
+
+.contact-list-all-contacts {
+  overflow-y: scroll;
+  height: 768px;
 }

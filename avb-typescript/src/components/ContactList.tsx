@@ -7,14 +7,27 @@ const ContactList: React.FC<ContactListData> = (props) => {
 
 
   return (
-    <div>
-      <p>Contacts</p>
-      <div>
+    <div className={"contact-list-main-div"}>
+      <p className={"contact-list-header"}>Contacts</p>
+      <div className={"contact-list-all-contacts"}>
         {props.contacts &&
           props.contacts.map((contact, index) => {
-            //console.log(contact);
+            let unselectedContactCSS = "contact-list-single-contact";
+            let selectedContactCSS = "contact-list-single-contact-selected";
+            let contactCSS = "";
+
+            if (props.singleContact != undefined) {
+              if (props.singleContact.id === contact.id) {
+                contactCSS = selectedContactCSS;
+              } else {
+                contactCSS = unselectedContactCSS;
+              }
+            } else {
+              contactCSS = unselectedContactCSS;
+            }
+
             return (
-              <p className={"contact-list-single-contact"} onClick={(event: React.MouseEvent<HTMLElement>) => {
+              <div className={contactCSS} onClick={(event: React.MouseEvent<HTMLElement>) => {
                 if (props.singleContact != undefined) {
                   if (props.singleContact.id === contact.id) {
                     props.setCurrentContact(undefined);
@@ -25,8 +38,8 @@ const ContactList: React.FC<ContactListData> = (props) => {
                   props.setCurrentContact(contact)
                 }
               }}>
-                {contact.firstName} {contact.lastName}
-              </p>
+                <span className={"contact-list-single-contact-names"}>{contact.firstName} {contact.lastName}</span>
+              </div>
             )
           })}
       </div>
