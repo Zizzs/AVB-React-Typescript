@@ -15,36 +15,41 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     emails: [],
   };
 
+  console.log("Prop", props.singleContact);
+  console.log("Mutable", mutableContact);
+
   // If the contact passed down exists and we have no mutable contact created, then we want to use the real contact information.
   if (props.singleContact !== undefined && mutableContact === undefined){
-    setMutableContact(props.singleContact);
+    tempContact = JSON.parse(JSON.stringify(props.singleContact));
+    setMutableContact(tempContact);
   }
 
   // If the contact passed down exists, and we already have a mutable contact but the ids are different, replace the old data with the new contact data.
   if (props.singleContact !== undefined && mutableContact !== undefined){
     if(props.singleContact.id !== mutableContact.id){
-      setMutableContact(props.singleContact);
+      tempContact = JSON.parse(JSON.stringify(props.singleContact));
+      setMutableContact(tempContact);
     }
   }
 
   // If the single contact is undefined (If the user clicks the same contact again to deselect it), and we still have mutable contact data from the previous contact, set the mutable contact data to the temporary contact information (Can be used to make a new contact profile)
   if (props.singleContact === undefined && mutableContact !== undefined){
     if(mutableContact.id !== tempContact.id){
-      setMutableContact(tempContact);
+      setMutableContact({...tempContact});
     }
   }
 
   // Only happens when the page is loaded for the first time. When the user has not clicked on a contact yet, causing the mutable contact data to be undefined as well. Set the mutable contact data to the temporary contact. (Can be used to make a new contact profile).
   if ( props.singleContact === undefined && mutableContact === undefined) {
-    setMutableContact(tempContact);
+    setMutableContact({...tempContact});
   }
 
   // Function called upon any change to first name input, modifies the mutable contact.
   const editFirstName = (value: string) => {
     if(mutableContact !== undefined){
-      tempContact = {...mutableContact};
+      tempContact = JSON.parse(JSON.stringify(mutableContact));
       tempContact.firstName = value;
-      setMutableContact(tempContact);
+      setMutableContact({...tempContact});
     }
     console.log(mutableContact);
   }
@@ -52,18 +57,18 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
   // Function called upon any change to the last name input, modifies the mutable contact.
   const editLastName = (value: string) => {
     if(mutableContact !== undefined){
-      tempContact = {...mutableContact};
+      tempContact = JSON.parse(JSON.stringify(mutableContact));
       tempContact.lastName = value;
-      setMutableContact(tempContact);
+      setMutableContact({...tempContact});
     }
     console.log(mutableContact);
   }
 
   const addEmail = () => {
     if(mutableContact !== undefined){
-      tempContact = {...mutableContact};
+      tempContact = JSON.parse(JSON.stringify(mutableContact));
       tempContact.emails.push(inputtedEmailTemp);
-      setMutableContact(tempContact);
+      setMutableContact({...tempContact});
       setInputtedEmailTemp("");
       setInputEmail(false);
     }
