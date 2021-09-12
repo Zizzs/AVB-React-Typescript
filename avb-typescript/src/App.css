@@ -16,7 +16,7 @@
 .contact-list-single-contact-selected {
   cursor: pointer;
   user-select: none;
-  background-color: #579AFF;
+  background-color: #579aff;
   font-family: Lato;
   font-style: normal;
   font-weight: normal;
@@ -33,7 +33,7 @@
   height: 750px;
   left: 0px;
   top: 0px;
-  background: #F8FAFF;
+  background: #f8faff;
 }
 
 .contact-list-header {
@@ -49,6 +49,11 @@
   height: 768px;
 }
 
+.single-contact-root-div {
+  display: grid;
+  grid-template-rows: 3fr 13fr 2fr;
+}
+
 .single-contact-first-last-name-div {
   margin-top: 50px;
   margin-left: 12.5%;
@@ -57,7 +62,7 @@
 }
 
 .single-contact-input {
-  background: #F9FBFF;
+  background: #f9fbff;
   width: 345px;
   height: 36px;
   font-family: Lato;
@@ -65,4 +70,140 @@
   font-weight: normal;
   font-size: 18px;
   line-height: 22px;
+}
+
+.single-contact-emails-div {
+}
+
+.single-contact-emails-header {
+  margin-left: 12.5%;
+}
+
+.single-contact-emails {
+  margin-left: 12.5%;
+}
+
+.single-contact-input-email-button {
+  height: 25px;
+  width: 100px;
+  padding-top: 5px;
+  background-color: #579aff;
+
+  cursor: pointer;
+  color: white;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+
+.single-contact-input-email-button:hover {
+  height: 25px;
+  width: 100px;
+  padding-top: 5px;
+  background-color: #579aff;
+
+  cursor: pointer;
+  color: black;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+
+.single-contact-interact-buttons {
+  display: grid;
+  grid-template-columns: 2fr 9fr 2fr;
+}
+
+.single-contact-add-button {
+  height: 40px;
+  width: 150px;
+  padding-top: 20px;
+  background-color: green;
+
+  cursor: pointer;
+  color: white;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.single-contact-add-button:hover {
+  height: 40px;
+  width: 150px;
+  padding-top: 20px;
+  background-color: green;
+
+  cursor: pointer;
+  color: black;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.single-contact-delete-button {
+  height: 40px;
+  width: 150px;
+  padding-top: 20px;
+  background-color: #ff5757;
+
+  cursor: pointer;
+  color: white;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.single-contact-delete-button:hover {
+  height: 40px;
+  width: 150px;
+  padding-top: 20px;
+  background-color: #ff5757;
+
+  cursor: pointer;
+  color: black;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.single-contact-save-button {
+  height: 40px;
+  width: 150px;
+  padding-top: 20px;
+  background-color: #579aff;
+
+  cursor: pointer;
+  color: white;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.single-contact-save-button:hover {
+  height: 40px;
+  width: 150px;
+  padding-top: 20px;
+  background-color: #579aff;
+
+  cursor: pointer;
+  color: black;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
 }
