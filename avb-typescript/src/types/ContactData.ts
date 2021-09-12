@@ -7,6 +7,12 @@ export interface ContactData {
   emails: Array<string>,
 }
 
+export interface AddContactData {
+  firstName: string,
+  lastName: string,
+  emails: Array<string>,
+}
+
 export interface ContactListData {
   contacts: Array<ContactData>,
   setCurrentContact: React.Dispatch<React.SetStateAction<ContactData | undefined>>,
@@ -16,6 +22,7 @@ export interface ContactListData {
 export interface SingleContactData {
   singleContact: ContactData | undefined,
   nextContactID: number,
+  updateContactsList: () => void,
 }
 
 export interface ContactEmailData {

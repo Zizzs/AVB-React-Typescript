@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ContactData, SingleContactData } from "../types/ContactData";
+import { ContactData, AddContactData, SingleContactData } from "../types/ContactData";
+import ContactsService from "../services/ContactsService";
 import ContactEmail from "./ContactEmail";
 
 const SingleContact: React.FC<SingleContactData> = (props) => {
@@ -15,13 +16,12 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     emails: [],
   };
 
-  console.log("Prop", props.singleContact);
-  console.log("Mutable", mutableContact);
-
   // If the contact passed down exists and we have no mutable contact created, then we want to use the real contact information.
   if (props.singleContact !== undefined && mutableContact === undefined){
     tempContact = JSON.parse(JSON.stringify(props.singleContact));
     setMutableContact(tempContact);
+    setInputtedEmailTemp("");
+    setInputEmail(false);
   }
 
   // If the contact passed down exists, and we already have a mutable contact but the ids are different, replace the old data with the new contact data.
@@ -29,6 +29,8 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     if(props.singleContact.id !== mutableContact.id){
       tempContact = JSON.parse(JSON.stringify(props.singleContact));
       setMutableContact(tempContact);
+      setInputtedEmailTemp("");
+      setInputEmail(false);
     }
   }
 
@@ -36,12 +38,16 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
   if (props.singleContact === undefined && mutableContact !== undefined){
     if(mutableContact.id !== tempContact.id){
       setMutableContact({...tempContact});
+      setInputtedEmailTemp("");
+      setInputEmail(false);
     }
   }
 
   // Only happens when the page is loaded for the first time. When the user has not clicked on a contact yet, causing the mutable contact data to be undefined as well. Set the mutable contact data to the temporary contact. (Can be used to make a new contact profile).
   if ( props.singleContact === undefined && mutableContact === undefined) {
     setMutableContact({...tempContact});
+    setInputtedEmailTemp("");
+    setInputEmail(false);
   }
 
   // Function called upon any change to first name input, modifies the mutable contact.
@@ -51,7 +57,6 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
       tempContact.firstName = value;
       setMutableContact({...tempContact});
     }
-    console.log(mutableContact);
   }
 
   // Function called upon any change to the last name input, modifies the mutable contact.
@@ -61,7 +66,6 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
       tempContact.lastName = value;
       setMutableContact({...tempContact});
     }
-    console.log(mutableContact);
   }
 
   // Function called upon user clicking the "Add Email" button, retrieves the temporary email input stored in state from the input and pushes it into the email array.
@@ -75,12 +79,59 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     }
   }
 
+  // Function called upon user clicking the "Delete" button next to an email in the ContactEmail component. Removes the email from the selected index.
   const deleteEmail = (index: number) => {
     if(mutableContact !== undefined){
-      console.log(`Deleting Email with index ${index}`);
       tempContact = JSON.parse(JSON.stringify(mutableContact));
       tempContact.emails.splice(index, 1);
       setMutableContact({...tempContact});
+    }
+  }
+
+  // Function called upon user clicking the "Cancel" button, this restores the contact's information to the original information.
+  const restoreContact = () => {
+    if(mutableContact !== undefined){
+      tempContact = JSON.parse(JSON.stringify(props.singleContact));
+      setMutableContact({...tempContact})
+    }
+  }
+
+  // Function called upon user clicking the "Save" button, this saves the updated contact information in the database and then updates the contact list with the new contact information.
+  const saveContact = () => {
+    if(mutableContact !== undefined){
+      console.log(`Saved Contact with id: ${mutableContact.id}`)
+      ContactsService.update(mutableContact.id, mutableContact)
+        .then(() => {
+          props.updateContactsList();
+        })
+    }
+  }
+
+  // Function called upon user clicking the "Delete" button, this deleted the current contact from the database and updates the contact list with the contact removed.
+  const deleteContact = () => {
+    if(mutableContact !== undefined){
+      console.log(`Deleting Contact with id: ${mutableContact.id}`)
+      ContactsService.remove(mutableContact.id)
+      .then(() => {
+        props.updateContactsList();
+        })
+      
+    }
+  }
+
+  const addContact = () => {
+    if(mutableContact !== undefined){
+      console.log(`Adding Contact: ${mutableContact}`)
+      let temp: AddContactData = {
+        firstName: mutableContact.firstName,
+        lastName: mutableContact.lastName,
+        emails: mutableContact.emails,
+      }
+      ContactsService.create(temp)
+        .then(() => {
+          props.updateContactsList();
+        })
+      
     }
   }
 
@@ -89,11 +140,12 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     setInputtedEmailTemp(value);
   }
 
-  // If the user clicks the 
+  // Tied to the Input email button, which shows the input line to add a new email.
   const handleInputEmailButton = () => {
     setInputEmail(true);
   }
 
+  // Tied to the Add email button, which removes the input line after adding an email.
   const handleAddEmailButton = () => {
     setInputEmail(false);
   }
@@ -138,13 +190,21 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
         </div>
         <div className={"single-contact-interact-buttons"}>
           {mutableContact.id === props.nextContactID ?
-            <p className={"single-contact-add-button"}>Add</p> :
-            <p className={"single-contact-delete-button"}>Delete</p>
+            <p className={"single-contact-add-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
+              addContact();
+            }}>Add</p> :
+            <p className={"single-contact-delete-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
+              deleteContact();
+            }}>Delete</p>
 
           }
           <p></p>
-          <p className={"single-contact-cancel-button"}>Cancel</p>
-          <p className={"single-contact-save-button"}>Save</p>
+          <p className={"single-contact-cancel-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
+                  restoreContact();
+                }}>Cancel</p>
+          <p className={"single-contact-save-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
+                  saveContact();
+                }}>Save</p>
         </div>
       </div>
     ) 

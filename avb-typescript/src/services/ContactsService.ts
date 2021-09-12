@@ -1,12 +1,12 @@
 import api from "../axios";
-import { ContactData } from "../types/ContactData";
+import { ContactData, AddContactData } from "../types/ContactData";
 
 const getAll = () => {
   return api.get(`/contacts/paginated`);
 }
 
-const create = (data: ContactData) => {
-  return api.post(`/contacts`);
+const create = (data: AddContactData) => {
+  return api.post(`/contacts`, data);
 }
 
 const update = (id: number, data: ContactData) => {

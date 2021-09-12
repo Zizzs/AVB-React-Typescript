@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 
 import ContactsService from "./services/ContactsService";
 import { ContactData } from "./types/ContactData";
@@ -12,21 +12,30 @@ const App: React.FC = () => {
 
   const [contacts, setContacts] = useState<Array<ContactData>>([]);
   const [currentContact, setCurrentContact] = useState<ContactData>();
+  const [updateContacts, setUpdateContacts] = useState<boolean>(true);
 
-  useEffect(() => {
-    retrieveContacts();
-  }, [])
-
-  const retrieveContacts = () => {
-    ContactsService.getAll()
+  const updateContactsList = () => {
+    setCurrentContact(undefined);
+    setUpdateContacts(true);
+  }
+  
+  const retrieveContacts = useCallback(() => {
+    if(updateContacts){
+      console.log("Updating Contacts");
+      ContactsService.getAll()
       .then(response => {
         setContacts(response.data.contacts);
-        //console.log(response.data.contacts);
+        setUpdateContacts(false);
       })
       .catch(e => {
         console.log(e);
       })
-  }
+    }
+  }, [updateContacts],)
+
+  useEffect(() => {
+    retrieveContacts();
+  }, [updateContacts, retrieveContacts]);
 
   let nextContactNumber = 5000;
 
@@ -37,7 +46,7 @@ const App: React.FC = () => {
   return (
     <div className={"root-div"}>
       <ContactList singleContact={currentContact} contacts={contacts} setCurrentContact={setCurrentContact}/>
-      <SingleContact singleContact={currentContact} nextContactID={nextContactNumber} />
+      <SingleContact singleContact={currentContact} nextContactID={nextContactNumber} updateContactsList={updateContactsList}/>
     </div>
   );
 }
