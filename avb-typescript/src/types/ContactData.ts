@@ -1,5 +1,7 @@
+import React from "react";
+
 export interface ContactData {
-  id?: number,
+  id: number,
   firstName: string,
   lastName: string,
   emails: Array<string>,
@@ -13,4 +15,5 @@ export interface ContactListData {
 
 export interface SingleContactData {
   singleContact: ContactData | undefined,
+  nextContactID: number,
 }

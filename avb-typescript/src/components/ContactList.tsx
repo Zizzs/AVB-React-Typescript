@@ -1,10 +1,15 @@
 import React from 'react';
-import { isPropertySignature } from 'typescript';
 import { ContactData, ContactListData } from "../types/ContactData";
 import "../App.css";
 
 const ContactList: React.FC<ContactListData> = (props) => {
 
+  let tempContact: ContactData = {
+    id: 0,
+    firstName: "",
+    lastName: "",
+    emails: [],
+  };
 
   return (
     <div className={"contact-list-main-div"}>
@@ -16,8 +21,8 @@ const ContactList: React.FC<ContactListData> = (props) => {
             let selectedContactCSS = "contact-list-single-contact-selected";
             let contactCSS = "";
 
-            if (props.singleContact != undefined) {
-              if (props.singleContact.id === contact.id) {
+            if(props.singleContact !== undefined){
+              if (contact.id === props.singleContact.id) {
                 contactCSS = selectedContactCSS;
               } else {
                 contactCSS = unselectedContactCSS;
@@ -25,17 +30,17 @@ const ContactList: React.FC<ContactListData> = (props) => {
             } else {
               contactCSS = unselectedContactCSS;
             }
-
+            
             return (
-              <div className={contactCSS} onClick={(event: React.MouseEvent<HTMLElement>) => {
-                if (props.singleContact != undefined) {
+              <div key={contact.id} className={contactCSS} onClick={(event: React.MouseEvent<HTMLElement>) => {
+                if (props.singleContact !== undefined) {
                   if (props.singleContact.id === contact.id) {
                     props.setCurrentContact(undefined);
                   } else {
                     props.setCurrentContact(contact);
                   }
                 } else {
-                  props.setCurrentContact(contact)
+                  props.setCurrentContact(contact);
                 }
               }}>
                 <span className={"contact-list-single-contact-names"}>{contact.firstName} {contact.lastName}</span>

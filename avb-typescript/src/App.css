@@ -48,3 +48,21 @@
   overflow-y: scroll;
   height: 768px;
 }
+
+.single-contact-first-last-name-div {
+  margin-top: 50px;
+  margin-left: 12.5%;
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+}
+
+.single-contact-input {
+  background: #F9FBFF;
+  width: 345px;
+  height: 36px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+}

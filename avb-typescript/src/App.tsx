@@ -21,18 +21,23 @@ const App: React.FC = () => {
     ContactsService.getAll()
       .then(response => {
         setContacts(response.data.contacts);
-        //console.log(response.data);
+        //console.log(response.data.contacts);
       })
       .catch(e => {
         console.log(e);
       })
   }
 
-  console.log(currentContact);
+  let nextContactNumber = 5000;
+
+  if (contacts.length > 0) {
+    nextContactNumber = contacts[0].id + 1;
+  }
+
   return (
     <div className={"root-div"}>
-      <ContactList singleContact={currentContact} contacts={contacts} setCurrentContact={setCurrentContact} />
-      <SingleContact singleContact={currentContact} />
+      <ContactList singleContact={currentContact} contacts={contacts} setCurrentContact={setCurrentContact}/>
+      <SingleContact singleContact={currentContact} nextContactID={nextContactNumber} />
     </div>
   );
 }
