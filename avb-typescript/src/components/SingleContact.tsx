@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { isReturnStatement } from 'typescript';
 import { ContactData, SingleContactData } from "../types/ContactData";
+import ContactEmail from "./ContactEmail";
 
 const SingleContact: React.FC<SingleContactData> = (props) => {
 
@@ -64,6 +64,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     console.log(mutableContact);
   }
 
+  // Function called upon user clicking the "Add Email" button, retrieves the temporary email input stored in state from the input and pushes it into the email array.
   const addEmail = () => {
     if(mutableContact !== undefined){
       tempContact = JSON.parse(JSON.stringify(mutableContact));
@@ -74,10 +75,21 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     }
   }
 
+  const deleteEmail = (index: number) => {
+    if(mutableContact !== undefined){
+      console.log(`Deleting Email with index ${index}`);
+      tempContact = JSON.parse(JSON.stringify(mutableContact));
+      tempContact.emails.splice(index, 1);
+      setMutableContact({...tempContact});
+    }
+  }
+
+  // Function called upon user inputting text into the input line for the email. Sets it to a temporary state value to be used in the "addEmail" function.
   const handleInputEmailChange = (value: string) => {
     setInputtedEmailTemp(value);
   }
 
+  // If the user clicks the 
   const handleInputEmailButton = () => {
     setInputEmail(true);
   }
@@ -86,7 +98,6 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     setInputEmail(false);
   }
 
-  let key = 0;
   if (mutableContact !== undefined){
     return (
       <div className={"single-contact-root-div"}>
@@ -104,8 +115,8 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
           <p className={"single-contact-emails-header"}>Emails:</p>
           <div className={"single-contact-emails"}>
             {
-            mutableContact.emails.map((email) => {
-              return (<p key={key += 1}>{email}</p>)
+            mutableContact.emails.map((email, index) => {
+              return (<ContactEmail key={index} deleteEmail={deleteEmail} emailIndex={index} email={email}/>)
             })
             }
             {
@@ -132,6 +143,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
 
           }
           <p></p>
+          <p className={"single-contact-cancel-button"}>Cancel</p>
           <p className={"single-contact-save-button"}>Save</p>
         </div>
       </div>

@@ -1,15 +1,8 @@
 import React from 'react';
-import { ContactData, ContactListData } from "../types/ContactData";
+import { ContactListData } from "../types/ContactData";
 import "../App.css";
 
 const ContactList: React.FC<ContactListData> = (props) => {
-
-  let tempContact: ContactData = {
-    id: 0,
-    firstName: "",
-    lastName: "",
-    emails: [],
-  };
 
   return (
     <div className={"contact-list-main-div"}>

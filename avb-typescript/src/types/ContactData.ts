@@ -17,3 +17,9 @@ export interface SingleContactData {
   singleContact: ContactData | undefined,
   nextContactID: number,
 }
+
+export interface ContactEmailData {
+  email: string,
+  emailIndex: number,
+  deleteEmail: (index: number) => void,
+}

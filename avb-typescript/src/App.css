@@ -113,9 +113,47 @@
   text-align: center;
 }
 
+.single-contact-delete-email-button {
+  margin-left: 15px;
+  height: 35px;
+  width: 150px;
+  padding-top: 5px;
+  background-color: #ff5757;
+
+  cursor: pointer;
+  color: white;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+
+.single-contact-delete-email-button:hover {
+  margin-left: 15px;
+  height: 35px;
+  width: 150px;
+  padding-top: 5px;
+  background-color: #ff5757;
+
+  cursor: pointer;
+  color: black;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+
+.single-contact-single-email {
+  height: 50px;
+  width: 250px;
+}
+
 .single-contact-interact-buttons {
   display: grid;
-  grid-template-columns: 2fr 9fr 2fr;
+  column-gap: 25px;
+  grid-template-columns: 2fr 9fr 2fr 2fr;
 }
 
 .single-contact-add-button {
@@ -171,6 +209,36 @@
 
   cursor: pointer;
   color: black;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.single-contact-cancel-button {
+  height: 40px;
+  width: 150px;
+  padding-top: 20px;
+  background-color: #f9fbff;
+
+  cursor: pointer;
+  color: black;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.single-contact-cancel-button:hover {
+  height: 40px;
+  width: 150px;
+  padding-top: 20px;
+  background-color: #f9fbff;
+
+  cursor: pointer;
+  color: gray;
   font-family: Lato;
   font-style: normal;
   font-weight: bold;

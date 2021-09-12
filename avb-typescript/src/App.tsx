@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect} from 'react';
 
 import ContactsService from "./services/ContactsService";
 import { ContactData } from "./types/ContactData";
