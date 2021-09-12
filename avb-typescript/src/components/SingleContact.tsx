@@ -100,14 +100,16 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
   const saveContact = () => {
     if(mutableContact !== undefined){
       console.log(`Saved Contact with id: ${mutableContact.id}`)
-      ContactsService.update(mutableContact.id, mutableContact)
-        .then(() => {
-          props.updateContactsList();
-        })
+      if(mutableContact.firstName.length > 0 && mutableContact.lastName.length > 0){
+        ContactsService.update(mutableContact.id, mutableContact)
+          .then(() => {
+            props.updateContactsList();
+          })
+        }
     }
   }
 
-  // Function called upon user clicking the "Delete" button, this deleted the current contact from the database and updates the contact list with the contact removed.
+  // Function called upon user clicking the "Delete" button, this deletes the current contact from the database and updates the contact list with the contact removed.
   const deleteContact = () => {
     if(mutableContact !== undefined){
       console.log(`Deleting Contact with id: ${mutableContact.id}`)
@@ -119,18 +121,20 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     }
   }
 
+  // Function called upon user clicking the "Add" button, this adds the current contact to the database and updates the contact list.
   const addContact = () => {
     if(mutableContact !== undefined){
-      console.log(`Adding Contact: ${mutableContact}`)
       let temp: AddContactData = {
         firstName: mutableContact.firstName,
         lastName: mutableContact.lastName,
         emails: mutableContact.emails,
       }
-      ContactsService.create(temp)
-        .then(() => {
-          props.updateContactsList();
-        })
+      if(temp.firstName.length > 0 && temp.lastName.length > 0){
+        ContactsService.create(temp)
+          .then(() => {
+            props.updateContactsList();
+          })
+      }
       
     }
   }

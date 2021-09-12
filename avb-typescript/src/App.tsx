@@ -21,14 +21,13 @@ const App: React.FC = () => {
   
   const retrieveContacts = useCallback(() => {
     if(updateContacts){
-      console.log("Updating Contacts");
       ContactsService.getAll()
       .then(response => {
         setContacts(response.data.contacts);
         setUpdateContacts(false);
       })
       .catch(e => {
-        console.log(e);
+        //console.log(e);
       })
     }
   }, [updateContacts],)
