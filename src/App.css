@@ -52,8 +52,16 @@
 .contact-list-add-button {
   margin-left: 25px;
   cursor: pointer;
+  font-size: 30px;
+  user-select: none;
+}
+
+.contact-list-add-button:hover {
+  margin-left: 25px;
+  cursor: pointer;
   font-size: 35px;
   user-select: none;
+  font-weight: bold;
 }
 
 .single-contact-root-div {

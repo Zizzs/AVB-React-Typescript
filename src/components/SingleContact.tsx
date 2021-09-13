@@ -109,6 +109,15 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
   // Function called upon user clicking the "Cancel" button, this restores the contact's information to the original information.
   const restoreContact = () => {
     if(mutableContact !== undefined){
+      if(mutableContact.id === props.nextContactID){
+        let tempContact: ContactData = {
+          id: props.nextContactID,
+          firstName: "",
+          lastName: "",
+          emails: [],
+        };
+        setMutableContact({...tempContact})
+      }
       tempContact = JSON.parse(JSON.stringify(props.singleContact));
       setMutableContact({...tempContact})
     }
@@ -272,9 +281,11 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
                   restoreContact();
                 }}>Cancel</p>
           <div>
+            {mutableContact.id !== props.nextContactID &&
             <p className={"single-contact-save-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
                     saveContact();
                   }}>Save</p>
+            }
           </div>
         </div>
         <div>
