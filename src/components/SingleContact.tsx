@@ -8,6 +8,12 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
   const [mutableContact, setMutableContact] = useState<ContactData>();
   const [inputEmailVisibility, setInputEmail] = useState<boolean>(false);
   const [inputtedEmailTemp, setInputtedEmailTemp] = useState<string>("");
+  const [invalidFirstName, setInvalidFirstName] = useState<boolean>(false);
+  const [invalidLastName, setInvalidLastName] = useState<boolean>(false);
+  const [invalidEmail, setInvalidEmail] = useState<boolean>(false);
+  const [successAdd, setSuccessAdd] = useState<boolean>(false);
+  const [successSave, setSuccessSave] = useState<boolean>(false);
+  const [successDelete, setSuccessDelete] = useState<boolean>(false);
 
   let tempContact: ContactData = {
     id: props.nextContactID,
@@ -16,12 +22,21 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     emails: [],
   };
 
+  const successTimeoutAlert = () => {
+    setTimeout( () => {
+      setSuccessAdd(false);
+      setSuccessDelete(false);
+      setSuccessSave(false);
+    }, 1500)
+  }
+
   // If the contact passed down exists and we have no mutable contact created, then we want to use the real contact information.
   if (props.singleContact !== undefined && mutableContact === undefined){
     tempContact = JSON.parse(JSON.stringify(props.singleContact));
     setMutableContact(tempContact);
     setInputtedEmailTemp("");
     setInputEmail(false);
+    successTimeoutAlert();
   }
 
   // If the contact passed down exists, and we already have a mutable contact but the ids are different, replace the old data with the new contact data.
@@ -31,6 +46,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
       setMutableContact(tempContact);
       setInputtedEmailTemp("");
       setInputEmail(false);
+      successTimeoutAlert();
     }
   }
 
@@ -40,6 +56,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
       setMutableContact({...tempContact});
       setInputtedEmailTemp("");
       setInputEmail(false);
+      successTimeoutAlert();
     }
   }
 
@@ -48,6 +65,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     setMutableContact({...tempContact});
     setInputtedEmailTemp("");
     setInputEmail(false);
+    successTimeoutAlert();
   }
 
   // Function called upon any change to first name input, modifies the mutable contact.
@@ -100,12 +118,25 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
   const saveContact = () => {
     if(mutableContact !== undefined){
       console.log(`Saved Contact with id: ${mutableContact.id}`)
-      if(mutableContact.firstName.length > 0 && mutableContact.lastName.length > 0){
+      if(mutableContact.firstName.length > 0 && mutableContact.lastName.length > 0 ){
+        setInvalidFirstName(false);
+        setInvalidLastName(false);
         ContactsService.update(mutableContact.id, mutableContact)
           .then(() => {
+            setSuccessSave(true);
             props.updateContactsList();
           })
-        }
+      }
+      if(mutableContact.firstName.length === 0) {
+        setInvalidFirstName(true);
+      } else {
+        setInvalidFirstName(false);
+      }
+      if(mutableContact.lastName.length === 0) {
+        setInvalidLastName(true);
+      } else {
+        setInvalidLastName(false);
+      }
     }
   }
 
@@ -113,6 +144,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
   const deleteContact = () => {
     if(mutableContact !== undefined){
       console.log(`Deleting Contact with id: ${mutableContact.id}`)
+      setSuccessDelete(true);
       ContactsService.remove(mutableContact.id)
       .then(() => {
         props.updateContactsList();
@@ -130,12 +162,39 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
         emails: mutableContact.emails,
       }
       if(temp.firstName.length > 0 && temp.lastName.length > 0){
+        setInvalidFirstName(false);
+        setInvalidLastName(false);
         ContactsService.create(temp)
-          .then(() => {
+        .then(() => {
+            setSuccessAdd(true);
             props.updateContactsList();
           })
+      } else {
+        if(temp.firstName.length === 0) {
+          setInvalidFirstName(true);
+        } else {
+          setInvalidFirstName(false);
+        }
+        if(temp.lastName.length === 0) {
+          setInvalidLastName(true);
+        } else {
+          setInvalidLastName(false);
+        }
       }
       
+    }
+  }
+
+  const validateEmail = () => {
+    let regex = /^((([!#$%&'*+\-/=?^_`{|}~\w])|([!#$%&'*+\-/=?^_`{|}~\w][!#$%&'*+\-/=?^_`{|}~\.\w]{0,}[!#$%&'*+\-/=?^_`{|}~\w]))[@]\w+([-.]\w+)*\.\w+([-.]\w+)*)$/;
+    let emailValidated =  regex.test(inputtedEmailTemp);
+
+    if(emailValidated) {
+      setInvalidEmail(false);
+      handleAddEmailButton();
+      addEmail();
+    } else {
+      setInvalidEmail(true);
     }
   }
 
@@ -161,10 +220,12 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
           <div>
             <p>First Name</p>
             <input className={"single-contact-input"} type="text" value={`${mutableContact.firstName}`} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => (editFirstName(e.target.value))}></input>
+            {invalidFirstName && <p className={"single-contact-invalid-warning"}>Invalid Name</p>}
           </div>
           <div>
             <p>Last Name</p>
             <input className={"single-contact-input"} type="text" value={`${mutableContact.lastName}`} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => (editLastName(e.target.value))}></input>
+            {invalidLastName && <p className={"single-contact-invalid-warning"}>Invalid Name</p>}
           </div>
         </div>
         <div className={"single-contact-emails-div"}>
@@ -180,8 +241,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
               <div>
                 <input onChange={(e: React.ChangeEvent<HTMLInputElement>): void => (handleInputEmailChange(e.target.value))}/>
                 <p className={"single-contact-input-email-button"} onClick={(event: React.MouseEvent<HTMLElement>) => {
-                  addEmail(); 
-                  handleAddEmailButton();
+                  validateEmail(); 
                 }}>Add Email</p>
               </div> :
               <div>
@@ -190,25 +250,38 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
                 }}>Input Email</p>
               </div>
             }
+            {invalidEmail && <p className={"single-contact-invalid-warning"}>Invalid Email</p>}
           </div>
         </div>
         <div className={"single-contact-interact-buttons"}>
           {mutableContact.id === props.nextContactID ?
-            <p className={"single-contact-add-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
-              addContact();
-            }}>Add</p> :
-            <p className={"single-contact-delete-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
-              deleteContact();
-            }}>Delete</p>
+            <div>
+              <p className={"single-contact-add-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
+                addContact();
+              }}>Add</p>
+            </div> :
+            <div>
+              <p className={"single-contact-delete-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
+                deleteContact();
+              }}>Delete</p>
+            </div>
 
           }
           <p></p>
           <p className={"single-contact-cancel-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
                   restoreContact();
                 }}>Cancel</p>
-          <p className={"single-contact-save-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
-                  saveContact();
-                }}>Save</p>
+          <div>
+            <p className={"single-contact-save-button"} onClick={(event: React.MouseEvent<HTMLElement>) => { 
+                    saveContact();
+                  }}>Save</p>
+          </div>
+        </div>
+        <div>
+          {successAdd === false && successDelete === false && successSave === false && <p className={"single-contact-footer-filler"}>.</p>}
+          {successAdd && <p className={"single-contact-footer-success"}>Successfully Added</p>}
+          {successDelete && <p className={"single-contact-footer-success"}>Successfully Deleted</p>}
+          {successSave && <p className={"single-contact-footer-success"}>Save Successful</p>}
         </div>
       </div>
     ) 

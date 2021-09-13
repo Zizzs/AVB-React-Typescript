@@ -49,9 +49,17 @@
   height: 768px;
 }
 
+.contact-list-add-button {
+  margin-left: 25px;
+  cursor: pointer;
+  font-size: 35px;
+  user-select: none;
+}
+
 .single-contact-root-div {
   display: grid;
-  grid-template-rows: 3fr 13fr 2fr;
+  height: 890px;
+  grid-template-rows: 3fr 13fr 2fr 0.5fr;
 }
 
 .single-contact-first-last-name-div {
@@ -148,16 +156,21 @@
 }
 
 .single-contact-interact-buttons {
+  position: relative;
   display: grid;
   column-gap: 25px;
+  padding-left: 50px;
   grid-template-columns: 2fr 9fr 2fr 2fr;
+
+  z-index: 10;
 }
 
 .single-contact-add-button {
+  position: absolute;
   height: 40px;
   width: 150px;
   padding-top: 20px;
-  margin-left: 45%;
+  margin-left: 10%;
   background-color: green;
 
   cursor: pointer;
@@ -167,13 +180,16 @@
   font-weight: bold;
   font-size: 20px;
   text-align: center;
+
+  z-index: 5;
 }
 
 .single-contact-add-button:hover {
+  position: absolute;
   height: 40px;
   width: 150px;
   padding-top: 20px;
-  margin-left: 45%;
+  margin-left: 10%;
   background-color: green;
 
   cursor: pointer;
@@ -183,13 +199,16 @@
   font-weight: bold;
   font-size: 20px;
   text-align: center;
+
+  z-index: 5;
 }
 
 .single-contact-delete-button {
+  position: absolute;
   height: 40px;
   width: 150px;
   padding-top: 20px;
-  margin-left: 45%;
+  margin-left: 10%;
   background-color: #ff5757;
 
   cursor: pointer;
@@ -199,13 +218,16 @@
   font-weight: bold;
   font-size: 20px;
   text-align: center;
+
+  z-index: 5;
 }
 
 .single-contact-delete-button:hover {
+  position: absolute;
   height: 40px;
   width: 150px;
   padding-top: 20px;
-  margin-left: 45%;
+  margin-left: 10%;
   background-color: #ff5757;
 
   cursor: pointer;
@@ -215,12 +237,16 @@
   font-weight: bold;
   font-size: 20px;
   text-align: center;
+
+  z-index: 5;
 }
 
 .single-contact-cancel-button {
+  position: absolute;
   height: 40px;
   width: 150px;
   padding-top: 20px;
+  margin-left: 60%;
   background-color: #f9fbff;
 
   cursor: pointer;
@@ -230,12 +256,16 @@
   font-weight: bold;
   font-size: 20px;
   text-align: center;
+
+  z-index: 5;
 }
 
 .single-contact-cancel-button:hover {
+  position: absolute;
   height: 40px;
   width: 150px;
   padding-top: 20px;
+  margin-left: 60%;
   background-color: #f9fbff;
 
   cursor: pointer;
@@ -245,12 +275,16 @@
   font-weight: bold;
   font-size: 20px;
   text-align: center;
+
+  z-index: 5;
 }
 
 .single-contact-save-button {
+  position: absolute;
   height: 40px;
   width: 150px;
   padding-top: 20px;
+  margin-right: 175px;
   background-color: #579aff;
 
   cursor: pointer;
@@ -260,12 +294,16 @@
   font-weight: bold;
   font-size: 20px;
   text-align: center;
+
+  z-index: 5;
 }
 
 .single-contact-save-button:hover {
+  position: absolute;
   height: 40px;
   width: 150px;
   padding-top: 20px;
+  margin-right: 175px;
   background-color: #579aff;
 
   cursor: pointer;
@@ -275,4 +313,19 @@
   font-weight: bold;
   font-size: 20px;
   text-align: center;
+
+  z-index: 5;
+}
+
+.single-contact-invalid-warning {
+  color: red;
+}
+
+.single-contact-footer-filler {
+  opacity: 0;
+}
+
+.single-contact-footer-success {
+  text-align: center;
+  color: green;
 }

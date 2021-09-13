@@ -4,9 +4,13 @@ import "../App.css";
 
 const ContactList: React.FC<ContactListData> = (props) => {
 
+  const handleAddNewUser = () => {
+    props.setCurrentContact(undefined);
+  }
+
   return (
     <div className={"contact-list-main-div"}>
-      <p className={"contact-list-header"}>Contacts</p>
+      <p className={"contact-list-header"}>Contacts<span onClick={(event: React.MouseEvent<HTMLElement>) => { handleAddNewUser()}}className={"contact-list-add-button"}>+</span></p>
       <div className={"contact-list-all-contacts"}>
         {props.contacts &&
           props.contacts.map((contact, index) => {
