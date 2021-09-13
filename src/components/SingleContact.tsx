@@ -36,6 +36,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     setMutableContact(tempContact);
     setInputtedEmailTemp("");
     setInputEmail(false);
+    setInvalidEmail(false);
     successTimeoutAlert();
   }
 
@@ -46,6 +47,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
       setMutableContact(tempContact);
       setInputtedEmailTemp("");
       setInputEmail(false);
+      setInvalidEmail(false);
       successTimeoutAlert();
     }
   }
@@ -56,6 +58,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
       setMutableContact({...tempContact});
       setInputtedEmailTemp("");
       setInputEmail(false);
+      setInvalidEmail(false);
       successTimeoutAlert();
     }
   }
@@ -65,6 +68,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     setMutableContact({...tempContact});
     setInputtedEmailTemp("");
     setInputEmail(false);
+    setInvalidEmail(false);
     successTimeoutAlert();
   }
 
@@ -116,10 +120,18 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
           lastName: "",
           emails: [],
         };
+        setInvalidFirstName(false);
+        setInvalidLastName(false);
+        setInvalidEmail(false);
+        setInputEmail(false);
+        setMutableContact(tempContact)
+      } else {
+        setInvalidFirstName(false);
+        setInvalidLastName(false);
+        setInvalidEmail(false);
+        tempContact = JSON.parse(JSON.stringify(props.singleContact));
         setMutableContact({...tempContact})
       }
-      tempContact = JSON.parse(JSON.stringify(props.singleContact));
-      setMutableContact({...tempContact})
     }
   }
 
@@ -130,6 +142,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
       if(mutableContact.firstName.length > 0 && mutableContact.lastName.length > 0 ){
         setInvalidFirstName(false);
         setInvalidLastName(false);
+        setInvalidEmail(false);
         ContactsService.update(mutableContact.id, mutableContact)
           .then(() => {
             setSuccessSave(true);
@@ -154,6 +167,9 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
     if(mutableContact !== undefined){
       console.log(`Deleting Contact with id: ${mutableContact.id}`)
       setSuccessDelete(true);
+      setInvalidFirstName(false);
+      setInvalidLastName(false);
+      setInvalidEmail(false);
       ContactsService.remove(mutableContact.id)
       .then(() => {
         props.updateContactsList();
