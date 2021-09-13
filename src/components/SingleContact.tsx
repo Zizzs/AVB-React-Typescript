@@ -129,6 +129,7 @@ const SingleContact: React.FC<SingleContactData> = (props) => {
         setInvalidFirstName(false);
         setInvalidLastName(false);
         setInvalidEmail(false);
+        setInputEmail(false);
         tempContact = JSON.parse(JSON.stringify(props.singleContact));
         setMutableContact({...tempContact})
       }
